@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const Problem1 = () => {
-  const [show, setShow] = useState('all');
+  const [show, setShow] = useState("all");
   const [tasks, setTasks] = useState([]);
 
   const handleClick = (val) => {
@@ -18,20 +18,20 @@ const Problem1 = () => {
   };
 
   const filteredTasks = tasks.filter((task) => {
-    if (show === 'all') {
+    if (show === "all") {
       return true;
-    } else if (show === 'active') {
-      return task.status === 'Active';
-    } else if (show === 'completed') {
-      return task.status === 'Completed';
+    } else if (show === "active") {
+      return task.status === "Active";
+    } else if (show === "completed") {
+      return task.status === "Completed";
     }
     return false;
   });
 
   const sortedTasks = filteredTasks.sort((a, b) => {
-    if (a.status === 'Active' && b.status !== 'Active') {
+    if (a.status === "Active" && b.status !== "Active") {
       return -1;
-    } else if (a.status === 'Completed' && b.status !== 'Completed') {
+    } else if (a.status === "Completed" && b.status !== "Completed") {
       return 1;
     } else {
       return 0;
@@ -74,27 +74,27 @@ const Problem1 = () => {
           <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
             <li className="nav-item">
               <button
-                className={`nav-link ${show === 'all' && 'active'}`}
+                className={`nav-link ${show === "all" && "active"}`}
                 type="button"
-                onClick={() => handleClick('all')}
+                onClick={() => handleClick("all")}
               >
                 All
               </button>
             </li>
             <li className="nav-item">
               <button
-                className={`nav-link ${show === 'active' && 'active'}`}
+                className={`nav-link ${show === "active" && "active"}`}
                 type="button"
-                onClick={() => handleClick('active')}
+                onClick={() => handleClick("active")}
               >
                 Active
               </button>
             </li>
             <li className="nav-item">
               <button
-                className={`nav-link ${show === 'completed' && 'active'}`}
+                className={`nav-link ${show === "completed" && "active"}`}
                 type="button"
-                onClick={() => handleClick('completed')}
+                onClick={() => handleClick("completed")}
               >
                 Completed
               </button>
