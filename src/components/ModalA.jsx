@@ -6,39 +6,9 @@ import { useNavigate } from "react-router-dom";
 export default function ModalA() {
   const [show, setShow] = useState(true);
   const [contacts, setContacts] = useState([]);
-  const [showContacts, setShowContacts] = useState(false);
-  const [filteredContacts, setFilteredContacts] = useState([]);
   const [onlyEvenChecked, setOnlyEvenChecked] = useState(false);
 
   const navigate = useNavigate();
-
-  const handleClose = () => {
-    setShow(false);
-    navigate(-1);
-  };
-
-  const handleShowAllContacts = () => {
-    setShowContacts(true);
-    setFilteredContacts(contacts);
-  };
-
-  const handleShowUSContacts = () => {
-    setShowContacts(true);
-    setFilteredContacts(
-      contacts.filter((data) => data.country.name === "United States")
-    );
-  };
-
-  const handleOnlyEvenChange = () => {
-    setOnlyEvenChecked(!onlyEvenChecked);
-    if (!onlyEvenChecked) {
-      setFilteredContacts(contacts.filter((data) => data.id % 2 === 0));
-    } else {
-      if (showContacts) {
-        handleShowAllContacts();
-      }
-    }
-  };
 
   useEffect(() => {
     // Fetch all contacts from the API
@@ -51,6 +21,22 @@ export default function ModalA() {
         console.error("Error fetching contacts:", error);
       });
   }, []);
+
+  const handleClose = () => {
+    setShow(false);
+    navigate("/problem-2");
+  };
+
+  const handleShowUSContacts = () => {
+    navigate("/modal-b");
+  };
+
+  const handleOnlyEvenChange = () => {
+    setOnlyEvenChecked(!onlyEvenChecked);
+    if (!onlyEvenChecked) {
+      setContacts(contacts.filter((data) => data.id % 2 === 0));
+    }
+  };
 
   return (
     <>
@@ -68,18 +54,9 @@ export default function ModalA() {
               </li>
             );
           })}
-          <Button onClick={handleShowAllContacts}>Button A</Button>
+          <Button>Button A</Button>
           <Button onClick={handleShowUSContacts}>Button B</Button>
           <Button onClick={handleClose}>Button C</Button>
-          {showContacts && (
-            <ul class="contact-list">
-              {filteredContacts.map((data, index) => (
-                <li key={index}>
-                  {data.id} {data.phone} {data.country.name}
-                </li>
-              ))}
-            </ul>
-          )}
         </Modal.Body>
         <Modal.Footer>
           <label>

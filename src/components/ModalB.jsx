@@ -6,39 +6,9 @@ import { useNavigate } from "react-router-dom";
 export default function ModalB() {
   const [show, setShow] = useState(true);
   const [contacts, setContacts] = useState([]);
-  const [showContacts, setShowContacts] = useState(false);
-  const [filteredContacts, setFilteredContacts] = useState([]);
   const [onlyEvenChecked, setOnlyEvenChecked] = useState(false);
 
   const navigate = useNavigate();
-
-  const handleClose = () => {
-    setShow(false);
-    navigate(-1);
-  };
-
-  const handleShowAllContacts = () => {
-    setShowContacts(true);
-    setFilteredContacts(contacts);
-  };
-
-  const handleShowUSContacts = () => {
-    setShowContacts(true);
-    setFilteredContacts(
-      contacts.filter((data) => data.country.name === "United States")
-    );
-  };
-
-  const handleOnlyEvenChange = () => {
-    setOnlyEvenChecked(!onlyEvenChecked);
-    if (!onlyEvenChecked) {
-      setFilteredContacts(contacts.filter((data) => data.id % 2 === 0));
-    } else {
-      if (showContacts) {
-        handleShowAllContacts();
-      }
-    }
-  };
 
   useEffect(() => {
     // Fetch all contacts from the API
@@ -52,6 +22,22 @@ export default function ModalB() {
       });
   }, []);
 
+  const handleClose = () => {
+    setShow(false);
+    navigate("/problem-2");
+  };
+
+  const handleShowAllContacts = () => {
+    navigate("/modal-a");
+  };
+
+  const handleOnlyEvenChange = () => {
+    setOnlyEvenChecked(!onlyEvenChecked);
+    if (!onlyEvenChecked) {
+      setContacts(contacts.filter((data) => data.id % 2 === 0));
+    }
+  };
+
   return (
     <>
       <Modal show={show} backdrop="static" keyboard={false}>
@@ -59,18 +45,20 @@ export default function ModalB() {
           <Modal.Title>Modal title</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Button onClick={handleShowAllContacts}>Button A</Button>
-          <Button onClick={handleShowUSContacts}>Button B</Button>
-          <Button onClick={handleClose}>Button C</Button>
-          {showContacts && (
-            <ul>
-              {filteredContacts.map((data, index) => (
+          {contacts
+            .filter((data) => data.country.name == "United States")
+            .map((data, index) => {
+              return (
                 <li key={index}>
-                  {data.id} {data.phone} {data.country.name}
+                  {data.id}
+                  {data.phone}
+                  {data.country.name}
                 </li>
-              ))}
-            </ul>
-          )}
+              );
+            })}
+          <Button onClick={handleShowAllContacts}>Button A</Button>
+          <Button >Button B</Button>
+          <Button onClick={handleClose}>Button C</Button>
         </Modal.Body>
         <Modal.Footer>
           <label>
