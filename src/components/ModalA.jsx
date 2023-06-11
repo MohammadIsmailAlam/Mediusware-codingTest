@@ -2,11 +2,15 @@ import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
+import ModalC from "./ModalC";
 
 export default function ModalA() {
   const [show, setShow] = useState(true);
   const [contacts, setContacts] = useState([]);
   const [onlyEvenChecked, setOnlyEvenChecked] = useState(false);
+  const [selectedContact, setSelectedContact] = useState(null);
+
+  const [showThirdModal, setShowThirdModal] = useState(false);
 
   const navigate = useNavigate();
 
@@ -38,6 +42,11 @@ export default function ModalA() {
     }
   };
 
+  const handleItemClick = (data) => {
+    setSelectedContact(data);
+    setShowThirdModal(true);
+  };
+
   return (
     <>
       <Modal show={show} backdrop="static" keyboard={false}>
@@ -47,16 +56,41 @@ export default function ModalA() {
         <Modal.Body>
           {contacts.map((data, index) => {
             return (
-              <li key={index}>
-                {data.id}
-                {data.phone}
-                {data.country.name}
+              <li key={index} onClick={() => handleItemClick(data)}>
+                <p>ID: {data.id}</p>
+                <p>Phone: {data.phone}</p>
+                <p>Country: {data.country.name}</p>
               </li>
             );
           })}
-          <Button>Button A</Button>
-          <Button onClick={handleShowUSContacts}>Button B</Button>
-          <Button onClick={handleClose}>Button C</Button>
+
+          {showThirdModal && (
+            <ModalC
+              selectedContact={selectedContact}
+              onClose={() => setShowThirdModal(false)}
+              customText="Custom text or data to display"
+            />
+          )}
+
+          <Button style={{ backgroundColor: "white", color: "#46139f" }}>
+            Button A
+          </Button>
+          <Button
+            style={{ backgroundColor: "white", color: "#ff7f50" }}
+            onClick={handleShowUSContacts}
+          >
+            Button B
+          </Button>
+          <Button
+            style={{
+              backgroundColor: "white",
+              border: "1px solid #46139f",
+              color: "#46139f",
+            }}
+            onClick={handleClose}
+          >
+            Button C
+          </Button>
         </Modal.Body>
         <Modal.Footer>
           <label>

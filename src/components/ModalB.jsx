@@ -50,15 +50,31 @@ export default function ModalB() {
             .map((data, index) => {
               return (
                 <li key={index}>
-                  {data.id}
-                  {data.phone}
-                  {data.country.name}
+                  <p>ID: {data.id}</p>
+                  <p>Phone: {data.phone}</p>
+                  <p>Country: {data.country.name}</p>
                 </li>
               );
             })}
-          <Button onClick={handleShowAllContacts}>Button A</Button>
-          <Button >Button B</Button>
-          <Button onClick={handleClose}>Button C</Button>
+          <Button
+            style={{ backgroundColor: "white", color: "#46139f" }}
+            onClick={handleShowAllContacts}
+          >
+            Button A
+          </Button>
+          <Button style={{ backgroundColor: "white", color: "#ff7f50" }}>
+            Button B
+          </Button>
+          <Button
+            style={{
+              backgroundColor: "white",
+              border: "1px solid #46139f",
+              color: "#46139f",
+            }}
+            onClick={handleClose}
+          >
+            Button C
+          </Button>
         </Modal.Body>
         <Modal.Footer>
           <label>
