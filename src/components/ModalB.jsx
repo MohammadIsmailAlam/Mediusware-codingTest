@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
+import ModalC from "./ModalC";
 
 export default function ModalB() {
   const [show, setShow] = useState(true);
   const [contacts, setContacts] = useState([]);
   const [onlyEvenChecked, setOnlyEvenChecked] = useState(false);
+  const [selectedContact, setSelectedContact] = useState(null);
+  const [showThirdModal, setShowThirdModal] = useState(false);
 
   const navigate = useNavigate();
 
@@ -38,6 +41,11 @@ export default function ModalB() {
     }
   };
 
+  const handleItemClick = (data) => {
+    setSelectedContact(data);
+    setShowThirdModal(true);
+  };
+
   return (
     <>
       <Modal show={show} backdrop="static" keyboard={false}>
@@ -49,13 +57,22 @@ export default function ModalB() {
             .filter((data) => data.country.name == "United States")
             .map((data, index) => {
               return (
-                <li key={index}>
+                <li key={index} onClick={() => handleItemClick(data)}>
                   <p>ID: {data.id}</p>
                   <p>Phone: {data.phone}</p>
                   <p>Country: {data.country.name}</p>
                 </li>
               );
             })}
+
+          {showThirdModal && (
+            <ModalC
+              selectedContact={selectedContact}
+              onClose={() => setShowThirdModal(false)}
+              customText="Custom text or data to display"
+            />
+          )}
+
           <Button
             style={{ backgroundColor: "white", color: "#46139f" }}
             onClick={handleShowAllContacts}
